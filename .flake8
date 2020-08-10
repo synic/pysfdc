@@ -1,0 +1,5 @@
+[flake8]
+exclude = .git,__pycache__,migrations,.venv,local_settings.py,setup.py
+ignore = D100,D101,D102,D103,D104,D105,D106,D107,W503
+application-import-names = hitched
+import-order-style = google
