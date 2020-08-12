@@ -1,7 +1,7 @@
 from simple_salesforce import Salesforce
 
-from . import exceptions
-from .models.base import BaseModel
+from pysfdc import exceptions
+from pysfdc.models.base import BaseModel
 
 
 class Manager(object):
@@ -45,11 +45,14 @@ class SalesForceClient(object):
         self._salesforce = Salesforce(**kwargs)
         self._bind_models()
 
+    def register_model(self, model):
+        manager = Manager(self, model)
+        setattr(self, model._client_attribute_name(), manager)
+
     def _bind_models(self):
         for model in BaseModel.__subclasses__():
-            manager = Manager(self, model)
-            setattr(self, model._client_attribute_name(), manager)
+            self.register_model(model)
 
     @classmethod
     def create(cls, *args, **kwargs):
-        return SalesForceClient(*args, **Kwargs)
+        return SalesForceClient(*args, **kwargs)

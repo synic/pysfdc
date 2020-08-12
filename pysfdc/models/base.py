@@ -28,7 +28,7 @@ class BaseModel(abc.ABC):
         except AttributeError as e:
             exception = e
 
-        data_key = self._get_data_key(key)
+        data_key = self.get_data_key(key)
         if data_key in self._data:
             return self._data.get(data_key)
 
@@ -39,11 +39,11 @@ class BaseModel(abc.ABC):
             super().__setattr__(key, value)
             return
 
-        data_key = self._get_data_key(key)
+        data_key = self.get_data_key(key)
         self._dirty_data[data_key] = value
         self._data[data_key] = value
 
-    def _get_data_key(self, orig_key):
+    def get_data_key(self, orig_key):
         """Convert key from snake_case to CamelCase.
 
         Override if you need to do the conversion in some other way.
@@ -51,7 +51,7 @@ class BaseModel(abc.ABC):
         return inflection.camelize(orig_key)
 
     def refresh(self):
-        self._data = self._sf_interface.get(self._data["Id"])
+        self._data = self._sf_interface.get(self._data['Id'])
         self._reset()
 
     def _reset(self):
@@ -69,16 +69,16 @@ class BaseModel(abc.ABC):
         if not self._dirty_data:
             return
 
-        if not self._data.get("Id"):
+        if not self._data.get('Id'):
             res = self._sf_interface.create(self._dirty_data)
             self._data = self._dirty_data
-            self.id = res["id"]
+            self.id = res['id']
             self._reset()
             return self.id
 
-        self._sf_interface.update(self._data["Id"], self._dirty_data)
+        self._sf_interface.update(self._data['Id'], self._dirty_data)
         self._reset()
-        return self._data["Id"]
+        return self._data['Id']
 
     @functools.cached_property
     def json(self):
