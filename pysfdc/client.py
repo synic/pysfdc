@@ -43,13 +43,13 @@ class Manager(object):
 class SalesForceClient(object):
     def __init__(self, **kwargs):
         self._salesforce = Salesforce(**kwargs)
-        self._bind_models()
+        self._register_default_models()
 
     def register_model(self, model):
         manager = Manager(self, model)
         setattr(self, model._client_attribute_name(), manager)
 
-    def _bind_models(self):
+    def _register_default_models(self):
         for model in BaseModel.__subclasses__():
             self.register_model(model)
 

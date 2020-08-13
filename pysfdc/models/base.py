@@ -5,6 +5,20 @@ import inflection
 
 
 class BaseModel(abc.ABC):
+    """Base model.
+
+    .. todo:
+
+        To make things a little more pythonic, the base model currently
+        converts keys from `CamelCase` to `snake_case`. This is great for most
+        one off cases, but the conversion can be expensive if you're doing a
+        lot of things in bulk.
+
+        It would be great to make it so that you can specify how to convert
+        keys on the fly (or _if_ to convert, at all), or on a per-client
+        basis.
+    """
+
     def __init__(self, manager, data):
         self._sf_interface = manager._sf_interface
         self._sf_client = manager.client._salesforce
@@ -19,7 +33,7 @@ class BaseModel(abc.ABC):
 
     @classmethod
     def _client_attribute_name(cls):
-        return '{}s'.format(cls._relation_name().lower())
+        return f'{cls._relation_name().lower()}'
 
     def __getattribute__(self, key):
         exception = None
@@ -91,4 +105,4 @@ class BaseModel(abc.ABC):
         return self.name
 
     def __repr__(self):
-        return '<{}: {}>'.format(self.__class__.__name__, self)
+        return f'<{self.__class__.name}: {self}>'
