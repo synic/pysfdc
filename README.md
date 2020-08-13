@@ -31,7 +31,7 @@ Installation using `pip` ..
 ```python
 
 >>> from pysfdc.client import SalesForceClient
->>> sf = SalesForceClient(  # uses same arguments as simple-salesforce
+>>> sf = SalesForceClient(  
 ...     username='myemail@example.com',
 ...     password='password',
 ...     security_token='token')
