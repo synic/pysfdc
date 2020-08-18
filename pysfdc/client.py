@@ -1,3 +1,5 @@
+import functools
+
 from simple_salesforce import Salesforce
 
 from pysfdc import exceptions
@@ -42,8 +44,12 @@ class Manager(object):
 
 class SalesForceClient(object):
     def __init__(self, **kwargs):
-        self._salesforce = Salesforce(**kwargs)
+        self._connection_kwargs = kwargs
         self._register_default_models()
+
+    @functools.cached_property
+    def _salesforce(self):
+        return Salesforce(**self.connection_kwargs)
 
     def register_model(self, model):
         manager = Manager(self, model)
