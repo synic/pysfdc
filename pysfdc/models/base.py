@@ -33,7 +33,7 @@ class BaseModel(abc.ABC):
 
     @classmethod
     def _client_attribute_name(cls):
-        return f'{cls._relation_name().lower()}'
+        return f'{cls._relation_name().lower()}s'
 
     def __getattribute__(self, key):
         exception = None
