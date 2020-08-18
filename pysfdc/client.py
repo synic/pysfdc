@@ -49,7 +49,7 @@ class SalesForceClient(object):
 
     @functools.cached_property
     def _salesforce(self):
-        return Salesforce(**self.connection_kwargs)
+        return Salesforce(**self._connection_kwargs)
 
     def register_model(self, model):
         manager = Manager(self, model)

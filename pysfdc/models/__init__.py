@@ -9,7 +9,7 @@ class Lead(BaseModel):
         return '{} {}'.format(self.first_name, self.last_name)
 
 
-class User(BaseModel):
+class User(Lead):
     pass
 
 
