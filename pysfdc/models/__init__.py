@@ -6,7 +6,7 @@ from pysfdc.models.base import BaseModel
 class Lead(BaseModel):
     @functools.cached_property
     def name(self):
-        return '{} {}'.format(self.first_name, self.last_name)
+        return f'{self.first_name} {self.last_name}'
 
 
 class User(Lead):
@@ -23,7 +23,7 @@ class Account(BaseModel):
         return self._client.accounts.get(self.parent_id)
 
 
-class Contact(BaseModel):
+class Contact(Lead):
     @functools.cached_property
     def account(self):
         return self._client.accounts.get(self.account_id)

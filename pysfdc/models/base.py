@@ -62,6 +62,11 @@ class BaseModel(abc.ABC):
 
         Override if you need to do the conversion in some other way.
         """
+        if orig_key.endswith('__c') or orig_key.endswith('__r'):
+            key, suffix = orig_key.rsplit('__', 1)
+            key = inflection.camelize(key)
+            return f'{key}__{suffix}'
+
         return inflection.camelize(orig_key)
 
     def refresh(self):
@@ -102,7 +107,7 @@ class BaseModel(abc.ABC):
         }
 
     def __str__(self):
-        return self.name
+        return getattr(self, 'name', self.id)
 
     def __repr__(self):
         return f'<{self.__class__.name}: {self}>'
