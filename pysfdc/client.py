@@ -58,8 +58,13 @@ class SalesForceClient(object):
     def _register_default_models(self):
         for name in dir(models):
             attr = getattr(models, name, None)
-            if name != 'BaseModel' and inspect.isclass(attr) \
-                    and issubclass(attr, models.BaseModel):
+            register_model = (
+                attr is not models.BaseModel
+                and inspect.isclass(attr)
+                and issubclass(attr, models.BaseModel)
+            )
+
+            if register_model:
                 self.register_model(attr)
 
     @classmethod
