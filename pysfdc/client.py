@@ -1,4 +1,5 @@
 import functools
+import inspect
 
 from simple_salesforce import Salesforce
 
@@ -57,7 +58,8 @@ class SalesForceClient(object):
     def _register_default_models(self):
         for name in dir(models):
             attr = getattr(models, name, None)
-            if name != 'BaseModel' and issubclass(attr, models.BaseModel):
+            if name != 'BaseModel' and inspect.isclass(attr) \
+                    and issubclass(attr, models.BaseModel):
                 self.register_model(attr)
 
     @classmethod
