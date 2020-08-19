@@ -110,4 +110,4 @@ class BaseModel(abc.ABC):
         return getattr(self, 'name', self.id)
 
     def __repr__(self):
-        return f'<{self.__class__.name}: {self}>'
+        return f'<{self.__class__.__name__}: {self}>'
