@@ -2,8 +2,7 @@ import functools
 
 from simple_salesforce import Salesforce
 
-from pysfdc import exceptions
-from pysfdc.models.base import BaseModel
+from pysfdc import exceptions, models
 
 
 class Manager(object):
@@ -56,8 +55,10 @@ class SalesForceClient(object):
         setattr(self, model._client_attribute_name(), manager)
 
     def _register_default_models(self):
-        for model in BaseModel.__subclasses__():
-            self.register_model(model)
+        for name in dir(models):
+            attr = getattr(models, name, None)
+            if name != 'BaseModel' and issubclass(attr, models.BaseModel):
+                self.register_model(attr)
 
     @classmethod
     def create(cls, *args, **kwargs):
