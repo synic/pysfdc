@@ -32,13 +32,15 @@ class Manager(object):
         except exceptions.SalesforceResourceNotFound:
             return None
 
-    def create(self, **kwargs):
+    def create(self, save=True, **kwargs):
         obj = self.model(self, {})
 
         for key, value in kwargs.items():
             setattr(obj, key, value)
 
-        obj.save()
+        if save:
+            obj.save()
+
         return obj
 
 
