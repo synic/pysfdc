@@ -12,6 +12,13 @@ setup(
     packages=find_packages(exclude=['test/*']),
     python_requires='>=3.8.0',
     install_requires=[
+        # C Foreign Function Interface for Python, installed here explicitly
+        # even though it's an automatically installed dependency of
+        # simple-salesforce. The reason is that the automatically installed
+        # version has a `ModuleMotFoundError`
+        # License: MIT
+        # https://github.com/cffi/cffi/blob/v0.23.0/COPYRIGHT
+        "cffi==1.14.3",
         # String transformation library
         # License: MIT
         # https://github.com/jpvanhal/inflection/blob/0.5.0/LICENSE/
